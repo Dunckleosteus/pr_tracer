@@ -38,19 +38,20 @@ for i in range(0,len(df2.index)):                                               
         # find closest value pr
         PRb = []
         result = []
-        x = df2.at[i, "X"]
-        y = df2.at[i, "Y"]
-        x2,y2 = transform(inProj, outProj, x, y)
-        PRc, m_value = functions.closest(x2, y2, PR)
+        x = df2.at[i, "X"] # average x of when event 3 button is pressed 
+        y = df2.at[i, "Y"] # average y of when event 3 button is pressed 
+        x2,y2 = transform(inProj, outProj, x, y)    # convert x and y to lambert 93
+        PRc, m_value = functions.closest(x2, y2, PR)    # Prc is index of closest value in PR and m_value is the distance value. 
     except Exception as e: 
         print(e)
     try:
-        PRb = PR[PRc][2]
+        PRb = PR[PRc][2]    # Prb stores the name value of the pr at index Prc
     except Exception as e:
         PRb = str(e)
     df2.at[i, 'Estimated pr'] = PRb
-    df2.at[i, 'Estimation delta'] = m_value
-    connection.close()
+    df2.at[i, 'Estimation delta'] = m_value                                     # distance added to excel field 
+    connection.close()                                                          # closes connection to database 
 #%%
 print(df2)
-df2.to_excel("output.xlsx")
+df2.to_excel("output.xlsx")     # stores result to excel 
+df2.to_csv("output.csv", sep=",")     # saves resut to csv 
